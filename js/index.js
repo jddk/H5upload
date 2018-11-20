@@ -31,23 +31,34 @@ var vm = new Vue({
             }
             // 有选择图片
             if (count != 0) {
-                for (let i = 0; i < count; i++) {
-                    canvasResize(files[i], {
-                        crop: false,
-                        quality: 0.9,
-                        rotate: 0,
-                        callback(baseStr) {
-                            that.imgs.push(baseStr)
-                        }
-                    })
-                }  
+                if(files.length == 1){
+                    canvasResize(files[0], {
+                            crop: false,
+                            quality: 0.9,
+                            rotate: 0,
+                            callback(baseStr) {
+                                that.imgs.push(baseStr)
+                            }
+                        })
+                }else{
+                    for (let i = 0; i < count; i++) {
+                        canvasResize(files[i], {
+                            crop: false,
+                            quality: 0.9,
+                            rotate: 0,
+                            callback(baseStr) {
+                                that.imgs.push(baseStr)
+                            }
+                        })
+                    }  
+                }
+                
             }
 
              
         },
         // 删除图片
         delImg:function(index){
-            console.log('dddd')
             this.imgs.splice(index,1);
             this.addShow = true;
         },
@@ -55,7 +66,7 @@ var vm = new Vue({
         submit:function(){
             var that = this;
             axios({
-                url: '',
+                url: 'http://test.360guanggu.com/xyzl/weixin.php/Member/question_detail',
                 method:'post',
                 data: {
                     files: that.imgs
