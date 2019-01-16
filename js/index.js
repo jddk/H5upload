@@ -9,7 +9,7 @@ var vm = new Vue({
         }
     },
     mounted:function(){
-
+        this.login();
     },
     methods:{
         // 选择图片
@@ -52,42 +52,85 @@ var vm = new Vue({
                         })
                     }  
                 }
-                
             }
-
-             
         },
         // 删除图片
         delImg:function(index){
             this.imgs.splice(index,1);
             this.addShow = true;
         },
+        // 登录
+        login:function(){
+            
+            $.ajax({
+                url:'http://test.360guanggu.com/xyzl/weixin.php/Index/test?type=1&uid=3',
+                dataType:'json',
+                success:function(res){
+                    console.log(res)
+                },
+                error:function(){
+                    console.log('error')
+                }
+            })
+            console.log('dddddddddd')
+            $.ajax({
+                url: 'http://test.360guanggu.com/xyzl/weixin.php/Member/question_list',
+                dataType: 'json',
+                success: function (e) {
+                    console.log(e)
+                }
+            })
+        },
         // 上传到后台
         submit:function(){
+        
             var that = this;
-            axios({
-                url: 'http://test.360guanggu.com/xyzl/weixin.php/Member/question_detail',
-                method:'post',
-                data: {
-                    files: that.imgs
+            var form = new FormData();
+            form.append("type", "1");
+            form.append("image", that.imgs);
+            form.append("question", "33333");
+            form.append("is_anonym", 1);
+            $.ajax({
+                url: 'http://test.360guanggu.com/xyzl/weixin.php/Member/question_add',
+                dataType: 'json',
+                type:'POST',
+                data:form,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    console.log(res)
                 },
-                header: {"Content-Type": "multipart/form-data"}
+                error: function () {
+                    console.log('error')
+                }
             })
-            .then(function(res) {
-                console.log(res)
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
+
+            // axios({
+            //     url: 'http://test.360guanggu.com/xyzl/weixin.php/Member/question_detail',
+            //     method:'post',
+            //     data: {
+            //         type: 1,
+            //         image: that.imgs,
+            //         question:'33333',
+            //         is_anonym:1
+            //     },
+            //     headers: {"Content-Type": "multipart/form-data"}
+            // })
+            // .then(function(res) {
+            //     console.log(res)
+            // })
+            // .catch(function(error) {
+            //     console.log(error);
+            // });
         },
         // toast
-        toast:function(text){
-            this.mltoast.text = text;
-            this.mltoast.show = true;
-            setTimeout(() => {
-              this.mltoast.show = false;
-            }, 1500)
-        }
+        // toast:function(text){
+        //     this.mltoast.text = text;
+        //     this.mltoast.show = true;
+        //     setTimeout(() => {
+        //       this.mltoast.show = false;
+        //     }, 1500)
+        // }
       
     }
 })

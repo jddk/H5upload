@@ -18,13 +18,15 @@
 	                src="images/icon-del.png" alt="">
 	        </div>
 	        <div v-show="addShow" class="upload-item">
-	            <img class="upload-item-img" src="images/add.png" alt="">
-	            <input class="upload-input"
-	                accept="image/*" 
-	                multiple
-	                required
-	                type="file" 
-	                @change="chooseImg">
+				<img class="upload-item-img" src="images/add.png" alt="">
+				<form id="form" enctype="multipart/form-data">
+					<input class="upload-input"
+						accept="image/*" 
+						multiple
+						required
+						type="file" 
+						@change="chooseImg">
+				</form>
 	        </div>
 	    </div>
 		
@@ -32,6 +34,8 @@
 	    <!-- Toast -->
 	    <div v-show="mltoast.show"  class="toast">{{mltoast.text}}</div>
 	</div>
+
+<script src="lib/jquery/jquery.js"></script>
 <script src="lib/vue/vue.min.js"></script>
 <script src="lib/vue/axios.min.js"></script>
 <script src="lib/canvasResize/canvasResize.min.js"></script>
